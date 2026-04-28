@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="stats-card mb-4">
+        <form method="GET" class="row align-items-end g-3">
+            <div class="col-md-4">
+                <label class="label-caps mb-2">Start Date</label>
+                <input type="date" name="start_date" class="form-control mb-0" value="{{ start_date }}">
+            </div>
+            <div class="col-md-4">
+                <label class="label-caps mb-2">End Date</label>
+                <input type="date" name="end_date" class="form-control mb-0" value="{{ end_date }}">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-dark w-100 py-2" style="border-radius: 12px;">
+                    <i class="bi bi-filter me-2"></i>Generate Report
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stats-card text-center py-4" style="background: #0F172A !important; color: white;">
+                <p class="small text-uppercase opacity-75 mb-1">Net Balance</p>
+                <h3 class="fw-bold mb-0">₹{{ balance|floatformat:2 }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card text-center py-4">
+                <p class="small text-uppercase text-muted mb-1">Total Period Income</p>
+                <h3 class="fw-bold mb-0 text-success">₹{{ total_income|floatformat:2 }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card text-center py-4">
+                <p class="small text-uppercase text-muted mb-1">Total Period Expense</p>
+                <h3 class="fw-bold mb-0 text-danger">₹{{ total_expense|floatformat:2 }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card p-0 overflow-hidden">
+        <div class="px-4 py-3 border-bottom">
+            <h6 class="fw-bold mb-0">Detailed Statement</h6>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Date</th>
+                        <th>Type</th>
+                        <th>Category/Source</th>
+                        <th class="text-end pe-4">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inc in incomes %}
+                    <tr>
+                        <td class="ps-4">{{ inc.date }}</td>
+                        <td><span class="badge bg-success-light text-success">Income</span></td>
+                        <td>{{ inc.source }}</td>
+                        <td class="text-end pe-4 text-success fw-bold">+ ₹{{ inc.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for exp in expenses %}
+                    <tr>
+                        <td class="ps-4">{{ exp.date }}</td>
+                        <td><span class="badge bg-danger-light text-danger">Expense</span></td>
+                        <td>{{ exp.category }}</td>
+                        <td class="text-end pe-4 text-danger fw-bold">- ₹{{ exp.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Financial Reports</h4>
+
+    
+    
+    <a href="{% url 'export_excel' %}" class="btn btn-outline-success">
+        <i class="bi bi-file-earmark-excel me-2"></i>Download 
+    </a>
+</div>
+{% endblock %}

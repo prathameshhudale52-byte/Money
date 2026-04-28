@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 85vh;">
+
+    <div class="col-md-5 col-lg-4">
+
+        <div class="fin-card p-4 login-card">
+
+            <!-- 🔷 HEADER -->
+            <div class="text-center mb-4">
+                <div class="login-icon mb-3">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+
+                <h3 class="fw-bold mb-1">Welcome Back</h3>
+                <p class="text-muted small mb-0">
+                    Sign in to continue to <strong>FinTrack</strong>
+                </p>
+            </div>
+
+            <!-- 🔷 FORM -->
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- USERNAME -->
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-person text-muted"></i>
+                        </span>
+                        <input type="text" name="username"
+                               class="form-control border-start-0 custom-input"
+                               placeholder="Enter username" required>
+                    </div>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-muted">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-key text-muted"></i>
+                        </span>
+                        <input type="password" name="password"
+                               class="form-control border-start-0 custom-input"
+                               placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- BUTTON -->
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm">
+                    Sign In
+                </button>
+
+                <!-- FOOTER -->
+                <div class="text-center mt-3">
+                    <span class="text-muted small">New to FinTrack?</span>
+                    <a href="{% url 'register' %}"
+                       class="small fw-semibold text-decoration-none link-highlight">
+                        Create an account
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-md-4">
+            <div class="stats-card">
+                <h4 class="fw-bold mb-4">Log Spending</h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    <label class="card-label small fw-bold text-uppercase">Date</label>
+                    <input type="date" name="date" required>
+
+                    <label class="card-label small fw-bold text-uppercase">Category</label>
+                    <input type="text" name="category" placeholder="e.g. Food, Rent" required>
+
+                    <label class="card-label small fw-bold text-uppercase">Amount (₹)</label>
+                    <input type="number" name="amount" step="0.01" placeholder="0.00" required>
+
+                    <button type="submit" class="btn btn-dark w-100 py-3 fw-bold mt-2" style="border-radius:12px; background: #0F172A;">
+                        Record Expense
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="stats-card p-0 overflow-hidden">
+                <div class="p-4 border-bottom">
+                    <h4 class="fw-bold mb-0">Expense Ledger</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th class="text-end">Amount</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in expenses %}
+                            <tr>
+                                <td class="text-muted small">{{ item.date|date:"d M, Y" }}</td>
+                                <td class="fw-bold">{{ item.category }}</td>
+                                <td class="text-end text-danger fw-bold">- ₹{{ item.amount }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'delete_expense' item.id %}" class="btn-delete">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">No expenses found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
